@@ -1,0 +1,10 @@
+.DS_Store
+.sass-cache/
+progress/
+#*
+*#
+*~
+.#*
+_includes/README.md
+_site/
+images/ditaa/
