@@ -92,6 +92,20 @@ postProcessors=less4j
 We can jump to a wro4j demo here 
 -->
 
+## Static Content: Grunt Toolchain
+
+For serious front end developers the best choice is a Javascript
+toolchain.
+
+* Good community, lots of tools
+* Package static assets into a jar
+* And/or build them as part of a very thin back end
+* Spring Boot CLI makes a great lightweight back end in production or for Java devs
+
+<!--
+Demo NPM toolchain. Show Spring Boot CLI app for backend.
+-->
+
 ## Dynamic Content - Templating Support
 * Thymeleaf
 * Groovy Template Language
@@ -266,12 +280,132 @@ server.tomcat.remote-ip-header=x-forwarded-for
 
 ```
 
-## Demo - Running behind HTTPS
+## Demo - Running Behind HTTPS
 
 <!-- Here we demo HTTPD running in docker -->
 
-## Other Stacks - Ratpack
+## Other Stacks
 
-## Other Stacks - Jersey
+* JAX-RS: Jersey 1.x, Jersey 2.x [dsyer/spring-boot-jersey](https://github.com/dsyer/spring-boot-jersey)
+* Netty and NIO: Ratpack [dsyer/spring-boot-ratpack](https://github.com/dsyer/spring-boot-ratpack)
+* Servlet 2.5 [scratches/spring-boot-legacy](https://github.com/scratches/spring-boot-legacy)
+* Vaadin [peholmst/vaadin4spring](https://github.com/peholmst/vaadin4spring/tree/master/spring-boot-vaadin)
+
+## Jersey 1.x
+
+Easy to integrate with Spring Boot using `Filter` (or `Servlet`), e.g.
+
+```
+@Configuration
+@EnableAutoConfiguration
+@Path("/")
+public class Application {
+
+    @GET
+    @Produces("text/plain")
+    public String hello() {
+        return "Hello World";
+    }
+
+    @Bean
+    public FilterRegistrationBean jersey() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(new ServletContainer());
+        bean.addInitParameter("com.sun.jersey.config.property.packages",
+      "com.mycompany.myapp");
+        return bean;
+    }
+
+}
+```
+
+(N.B. with fat jar you need to explicitly list the nested jars that have JAX-RS resources in them.)
+
+## Jersey 2.x
+
+Spring integration is provided out of the box, but a little bit tricky
+to use with Spring Boot, so some autoconfiguration is useful. Example
+app:
+
+```
+@Configuration
+@Path("/")
+public class Application extends ResourceConfig {
+
+    @GET
+    public String message() {
+        return "Hello";
+    }
+
+    public Application() {
+        register(Application.class);
+    }
+
+}
+```
+
+## Ratpack
+
+> Originally inspired by Sinatra, but now pretty much
+> diverged. Provides a nice programming model on top of Netty
+> (potentially taking advantage of non-blocking IO).
+
+2 approaches:
+
+* Ratpack embeds Spring (and uses it as a `Registry`), supported natively in Ratpack 0.9.9
+* Spring embeds Ratpack (and uses it as an HTTP listener) = spring-boot-ratpack
+
+## Spring Boot embedding Ratpack
+
+Trivial example (single `Handler`):
+
+```
+@Bean
+public Handler handler() {
+    return (context) -> {
+        context.render("Hello World");
+    };
+}
+```
+
+## Spring Boot embedding Ratpack
+
+More interesting example (`Action<Chain>` registers `Handlers`):
+
+```
+@Bean
+public Handler hello() {
+    return (context) -> {
+        context.render("Hello World");
+    };
+}
+
+@Bean
+public Action<Chain> handlers() {
+    return (chain) -> {
+        chain.get(hello());
+    };
+}
+```
+
+## Spring Boot Ratpack DSL
+
+A valid Ratpack Groovy application:
+
+```
+ratpack {
+  handlers {
+    get {
+      render "Hello World"
+    }
+  }
+}
+```
+
+launched with Spring Boot:
+
+```
+$ spring run app.groovy
+```
 
 
