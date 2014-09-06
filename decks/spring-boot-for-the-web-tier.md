@@ -62,27 +62,27 @@ also add show a webjar import.
     <configuration>
         <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
         <destinationFolder>${basedir}/target/generated-resources/static/</destinationFolder>
-        <wroFile>${basedir}/src/main/resources/wro/wro.xml</wroFile>
-        <extraConfigFile>${basedir}/src/main/resources/wro/wro.properties</extraConfigFile>
+        <wroFile>${basedir}/src/main/wro/wro.xml</wroFile>
+        <extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
     </configuration>
 </plugin>
 ```
 
 ## Static Content - Wro4j with Maven
 
-`src/main/resources/wro/wro.xml`
+`src/main/wro/wro.xml`
 
 ```xml
 <groups xmlns="http://www.isdc.ro/wro">
   <group name="wro">
-    <css>file:./src/main/resources/wro/main.less</css>
+    <css>file:./src/main/wro/main.less</css>
   </group>
 </groups>
 ```
 
 <p/>
 
-`src/main/resources/wro/wro.properties`
+`src/main/wro/wro.properties`
 
 ```
 postProcessors=less4j
