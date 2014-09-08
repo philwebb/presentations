@@ -299,7 +299,7 @@ server.tomcat.remote-ip-header=x-forwarded-for
 
 ## Other Stacks
 
-* JAX-RS: Jersey 1.x, Jersey 2.x [dsyer/spring-boot-jersey](https://github.com/dsyer/spring-boot-jersey)
+* JAX-RS: Jersey 1.x, Jersey 2.x [dsyer/spring-boot-jersey](https://github.com/dsyer/spring-boot-jersey), CXF (allegedly works)
 * Netty and NIO: Ratpack [dsyer/spring-boot-ratpack](https://github.com/dsyer/spring-boot-ratpack)
 * Servlet 2.5 [scratches/spring-boot-legacy](https://github.com/scratches/spring-boot-legacy)
 * Vaadin [peholmst/vaadin4spring](https://github.com/peholmst/vaadin4spring/tree/master/spring-boot-vaadin)
