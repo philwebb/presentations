@@ -134,7 +134,7 @@ Demo Groovy templates. Showing groovy code in-line.
 
 ## Dynamic Content - Custom Support
 * Add a `ViewResolver`
-* Add a `TemplateAvailabilityProvider`
+* Optionally add a `TemplateAvailabilityProvider`
 
 ```java
 public class GroovyTemplateAvailabilityProvider implements TemplateAvailabilityProvider {
@@ -191,7 +191,19 @@ ResponseEntity.
 * You can get the `RequestContext` from `RequestContextHolder` anywhere
 * All `Converter`, `Formatter`, `GenericConverter` beans are automatically added
 * Use `spring.mvc.message-codes-resolver-format` to add a `MessageCodesResolver`
-  * `prefix_error_code` or `postfix_error_code`
+  * `prefix_error_code` or `postfix_error_code` 
+
+```
+# prefix_error_code
+empty.customer.name=Customer name is required
+```
+
+<br/>
+
+```
+# postfix_error_code
+customer.name.empty=Customer name is required
+```
 
 ## Embedded Server
 * When using WARs a `ServletContainerInitializer` creates the Spring `ApplicationContext`
