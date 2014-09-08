@@ -189,6 +189,7 @@ ResponseEntity.
 
 ## Dynamic Content - Hidden Gems
 * You can get the `RequestContext` from `RequestContextHolder` anywhere
+* The request has some useful things in it (from Spring), e.g. `HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE`
 * All `Converter`, `Formatter`, `GenericConverter` beans are automatically added
 * Use `spring.mvc.message-codes-resolver-format` to add a `MessageCodesResolver`
   * `prefix_error_code` or `postfix_error_code` 
@@ -307,7 +308,7 @@ server.tomcat.remote-ip-header=x-forwarded-for
 
 Easy to integrate with Spring Boot using `Filter` (or `Servlet`), e.g.
 
-```
+```java
 @Configuration
 @EnableAutoConfiguration
 @Path("/")
@@ -339,7 +340,7 @@ Spring integration is provided out of the box, but a little bit tricky
 to use with Spring Boot, so some autoconfiguration is useful. Example
 app:
 
-```
+```java
 @Configuration
 @Path("/")
 public class Application extends ResourceConfig {
@@ -371,7 +372,7 @@ public class Application extends ResourceConfig {
 
 Trivial example (single `Handler`):
 
-```
+```java
 @Bean
 public Handler handler() {
     return (context) -> {
@@ -384,7 +385,7 @@ public Handler handler() {
 
 More interesting example (`Action<Chain>` registers `Handlers`):
 
-```
+```java
 @Bean
 public Handler hello() {
     return (context) -> {
@@ -404,7 +405,7 @@ public Action<Chain> handlers() {
 
 A valid Ratpack Groovy application:
 
-```
+```groovy
 ratpack {
   handlers {
     get {
