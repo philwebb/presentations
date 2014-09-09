@@ -21,7 +21,7 @@ email: dsyer@pivotal.io
 
 ## Static Content - Serving Files
 * Can't use `/src/main/webapp` for jar deployments
-* Put Static files from `src/main/resources/static`
+* Put static files from `src/main/resources/static`
 * or `.../public` or `.../resources` or `.../META-INF/resources`
 
 ## Static Content - Conventions
@@ -458,3 +458,7 @@ $ spring run app.groovy
 ```
 
 
+## Questions?
+
+* http://projects.spring.io/spring-boot/
+* https://github.com/SpringOne2GX-2014/spring-boot-for-the-web-tier
