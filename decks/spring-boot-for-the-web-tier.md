@@ -37,9 +37,22 @@ the mapping to '/' and an alternative favicon.ico. It will
 also add show a webjar import. 
 -->
 
-## Static Content - Processing Assets
-* Use a JavaScript tool chain and create an assets jar
-* Use a wro4j
+## Static Content: Grunt Toolchain
+For serious front end developers the best choice is a Javascript
+toolchain.
+
+* Good community, lots of tools
+* Package static assets into a jar
+* And/or build them as part of a very thin back end
+* Spring Boot CLI makes a great lightweight back end in production or for Java devs
+
+<!--
+Demo NPM toolchain. Show Spring Boot CLI app for backend.
+-->
+
+## Static Content - wro4j
+* Great for Java developers
+* Often good enough
   * JsHint
   * CssLint
   * JsMin
@@ -92,19 +105,7 @@ postProcessors=less4j
 We can jump to a wro4j demo here 
 -->
 
-## Static Content: Grunt Toolchain
 
-For serious front end developers the best choice is a Javascript
-toolchain.
-
-* Good community, lots of tools
-* Package static assets into a jar
-* And/or build them as part of a very thin back end
-* Spring Boot CLI makes a great lightweight back end in production or for Java devs
-
-<!--
-Demo NPM toolchain. Show Spring Boot CLI app for backend.
--->
 
 ## Dynamic Content - Templating Support
 * Thymeleaf
@@ -222,16 +223,33 @@ customer.name.empty=Customer name is required
   * `HttpSessionListener`
   * `ServletContextListener`
 
+## Embedded Server - Initialization
 * For more control use 
   * `ServletRegistrationBean`
   * `FilterRegistrationBean`
   * `ServletListenerRegistrationBean`
 
+```java
+@Bean
+public ServletRegistrationBean myServlet() {
+    ServletRegistrationBean bean = 
+        new ServletRegistrationBean(new MyServlet(), "/mine");
+    bean.setAsyncSupported(false);
+    bean.setInitParameters(Collections.singletonMap("debug", "true"));
+    return bean;
+}
+
+@Bean
+public FilterRegistrationBean myFilter() {
+    return new FilterRegistrationBean(new MyFilter(), myServlet());
+}
+```
+
 ## Embedded Server - Initialization
 * By design the following are not called with embedded servers:
   * `javax.servlet.ServletContainerInitializer`
   * `org.springframework.web.WebApplicationInitializer`
-* Use `org.springframework.boot.context.embedded.ServletContextInitializer`
+* Use `o.s.boot.context.embedded.ServletContextInitializer`
 
 ```java
   /**
@@ -259,6 +277,24 @@ customer.name.empty=Customer name is required
 * Lots of protected methods to override
 * `TomcatEmbeddedServletContainerFactory`
 * `JettyEmbeddedServletContainerFactory`
+
+```java
+@Bean
+public TomcatEmbeddedServletContainerFactory tomcatFactory() {
+    return new TomcatEmbeddedServletContainerFactory(7070) {
+        @Override
+        protected void customizeConnector(Connector connector) {
+          // Something with the connector
+        }
+
+        @Override
+        protected void configureSsl(AbstractHttp11JsseProtocol<?> 
+              protocol, Ssl ssl) {
+          // Something with ssl
+        }
+    };
+}
+```
 
 ## Embedded Server - Tomcat Behind HTTPD
 * Running behind Apache HTTPD is a common option
